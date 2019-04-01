@@ -1,4 +1,6 @@
 import os
+from datetime import date
+from pathlib import Path
 import shutil
 
 import home.constants as constants
@@ -36,3 +38,22 @@ def mv_tutorials_to_dropbox():
 
     else:
         print('There are not files to be moved')
+
+
+def cp_bashrc_to_dropbox():
+    bashrc_src = Path.home() / '.bashrc'
+
+    if bashrc_src.exists() and bashrc_src.is_file():
+        today = date.today().strftime("%Y%m%d")
+        new_file_name = f"{bashrc_src.stem}-{today}"
+
+        destination = Path.home() / 'Dropbox' / 'workspace-db' / 'home-ubuntu'
+
+        if destination.exists() and destination.is_dir():
+            final_dst = destination / new_file_name
+            shutil.copy(bashrc_src, final_dst)
+            print('The file .bashrc was copied with success')
+
+
+def cp_codenation_projects_to_dropbox():
+    pass

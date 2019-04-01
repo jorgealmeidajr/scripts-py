@@ -15,6 +15,12 @@ def main():
     if args['command'] == 'mv-tutorials-to-dropbox':
         home_commands.mv_tutorials_to_dropbox()
 
+    elif args['command'] == 'cp-bashrc-to-dropbox':
+        home_commands.cp_bashrc_to_dropbox()
+
+    else:
+        print(f"Command: {args['command']} is not supported")
+
 
 if __name__ == "__main__":
     main()
