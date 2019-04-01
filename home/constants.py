@@ -1,17 +1,12 @@
-from os import path
+from pathlib import Path
 
 
-HOME_DIRECTORY = path.expanduser('~')
+DOWNLOADS_DIRECTORY = Path.home() / 'Downloads'
 
-if not (path.exists(HOME_DIRECTORY) and path.isdir(HOME_DIRECTORY)):
-    raise Exception('Home directory doesnt exists')
+if not (DOWNLOADS_DIRECTORY.exists() and DOWNLOADS_DIRECTORY.is_dir()):
+    raise Exception('The required Downloads directory doesnt exists')
 
-DOWNLOADS_DIRECTORY = path.join(HOME_DIRECTORY, 'Downloads')
+DROPBOX_DIRECTORY = Path.home() / 'Dropbox'
 
-if not (path.exists(DOWNLOADS_DIRECTORY) and path.isdir(DOWNLOADS_DIRECTORY)):
-    raise Exception('Downloads directory doesnt exists')
-
-DROPBOX_DIRECTORY = path.join(HOME_DIRECTORY, 'Dropbox')
-
-if not (path.exists(DROPBOX_DIRECTORY) and path.isdir(DROPBOX_DIRECTORY)):
-    raise Exception('Dropbox directory doesnt exists')
+if not (DROPBOX_DIRECTORY.exists() and DROPBOX_DIRECTORY.is_dir()):
+    raise Exception('The required Dropbox directory doesnt exists')
