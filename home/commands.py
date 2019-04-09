@@ -60,27 +60,45 @@ def cp_codenation_projects_to_dropbox():
         sys.exit('The required "codenation" directory does not exist')
 
     if not (dropbox_destin_dir.exists() and dropbox_destin_dir.is_dir()):
-        sys.exit('The required dropbox directory does not exist')
+        sys.exit('The required "dropbox" directory does not exist')
 
     subdirectories = [d for d in codenation_dir.iterdir() if d.is_dir()]
 
     for parent_directory in subdirectories:
+        path_end_name = parent_directory.parts[-1]
+        today = date.today().strftime("%Y%m%d")
+        destin_name = f"{path_end_name}-{today}"
+
+        destin_final = dropbox_destin_dir / destin_name
+        print(destin_final)
+
         files_to_copy = []
+        end_index = len(str(parent_directory))
 
         for (root, dirs, files) in os.walk(parent_directory):
             if not is_directory_to_ignore(root):
-                print(f'root: {root}')
-                end_index = len(str(parent_directory))
                 current_dir = root[end_index:]
+                print(current_dir)
 
                 for file in files:
-                    print(f"file: {root}{os.sep}{file}")
+                    file_name = Path(file).name
+                    # TODO: behaviour in root and subdirectory are different
+                    to_copy = {
+                        "origin": f"{root}{os.sep}{file}",
+                        "destin": f"{destin_final}{os.sep}{current_dir}{file_name}"
+                    }
+                    print(to_copy)
 
 
 def is_directory_to_ignore(path_str):
+    # TODO: put this in a file, using patterns from gitignore
     patterns_to_ignore = [
         f'{os.sep}node_modules',
-        f'{os.sep}.git'
+        f'{os.sep}.git',
+        f'{os.sep}__pycache__',
+        f'{os.sep}.pytest_cache',
+        f'{os.sep}.idea',
+        f'{os.sep}__MACOSX',
     ]
 
     for pattern in patterns_to_ignore:
