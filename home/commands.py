@@ -70,7 +70,9 @@ def cp_codenation_projects_to_dropbox():
         destin_name = f"{path_end_name}-{today}"
 
         destin_final = dropbox_destin_dir / destin_name
-        print(destin_final)
+        destin_final_path = Path(destin_final)
+        if not destin_final_path.exists():
+            destin_final_path.mkdir()
 
         files_to_copy = []
         end_index = len(str(parent_directory))
@@ -78,16 +80,41 @@ def cp_codenation_projects_to_dropbox():
         for (root, dirs, files) in os.walk(parent_directory):
             if not is_directory_to_ignore(root):
                 current_dir = root[end_index:]
-                print(current_dir)
 
                 for file in files:
                     file_name = Path(file).name
-                    # TODO: behaviour in root and subdirectory are different
-                    to_copy = {
-                        "origin": f"{root}{os.sep}{file}",
-                        "destin": f"{destin_final}{os.sep}{current_dir}{file_name}"
-                    }
-                    print(to_copy)
+                    file_to_copy = {}
+
+                    if current_dir == '':
+                        file_to_copy = {
+                            "origin": Path(f"{root}{os.sep}{file}"),
+                            "destin": Path(f"{destin_final}{os.sep}{current_dir}{file_name}")
+                        }
+                    else:
+                        file_to_copy = {
+                            "origin": Path(f"{root}{os.sep}{file}"),
+                            "destin": Path(f"{destin_final}{current_dir}{os.sep}{file_name}")
+                        }
+
+                        destin_path = Path(f"{destin_final}{current_dir}")
+                        if not destin_path.exists():
+                            destin_path.mkdir()
+
+                    files_to_copy.append(file_to_copy)
+
+        for file in files_to_copy:
+            origin_path = file["origin"]
+            destin_path = file["destin"]
+
+            shutil.copy(str(origin_path), str(destin_path))
+
+            if not (origin_path.exists() or destin_path.exists()):
+                sys.exit('The origin and destin file must exist')
+
+            if origin_path.stat().st_size != destin_path.stat().st_size:
+                sys.exit('The origin and destin file must have the same size')
+
+    print("The command 'cp-codenation-projects-to-dropbox' ended its execution")
 
 
 def is_directory_to_ignore(path_str):
