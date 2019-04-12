@@ -5,6 +5,7 @@ from pathlib import Path
 import shutil
 
 import home.constants as constants
+from common.files import PatternsToIgnore
 
 
 def mv_tutorials_to_dropbox():
@@ -62,6 +63,7 @@ def cp_codenation_projects_to_dropbox():
     if not (dropbox_destin_dir.exists() and dropbox_destin_dir.is_dir()):
         sys.exit('The required "dropbox" directory does not exist')
 
+    patterns_to_ignore = PatternsToIgnore()
     subdirectories = [d for d in codenation_dir.iterdir() if d.is_dir()]
 
     for parent_directory in subdirectories:
@@ -78,7 +80,9 @@ def cp_codenation_projects_to_dropbox():
         end_index = len(str(parent_directory))
 
         for (root, dirs, files) in os.walk(parent_directory):
-            if not is_directory_to_ignore(root):
+            #if not is_directory_to_ignore(root):
+            if not patterns_to_ignore.is_path_to_ignore(root):
+                print(root)
                 current_dir = root[end_index:]
 
                 for file in files:
