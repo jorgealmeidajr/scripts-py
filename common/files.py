@@ -13,9 +13,7 @@ class PatternsToIgnore:
         self.read_lines_from_txt("linux-ignore.txt")
         self.read_lines_from_txt("windows-ignore.txt")
 
-        self.patterns_to_ignore.extend([
-            f"{os.sep}.git", f"{os.sep}.idea", f"{os.sep}__MACOSX"
-        ])
+        self.add_custom_patterns_to_ignore()
 
     def read_lines_from_txt(self, path):
         current_folder = os.path.dirname(os.path.abspath(__file__))
@@ -34,9 +32,17 @@ class PatternsToIgnore:
 
                     line_formatted = f"{os.sep}{line_formatted}"
 
-                    self.patterns_to_ignore.append(line_formatted)
+                    if len(line_formatted) > 1:
+                        self.patterns_to_ignore.append(line_formatted)
 
                 line = fp.readline()
+
+    def add_custom_patterns_to_ignore(self):
+        self.patterns_to_ignore.extend([
+            f"{os.sep}.git",
+            f"{os.sep}.idea",
+            f"{os.sep}__MACOSX"
+        ])
 
     @staticmethod
     def is_line_to_ignore(line):
@@ -49,9 +55,3 @@ class PatternsToIgnore:
                 return True
 
         return False
-
-
-# TODO: remove me!
-p = PatternsToIgnore()
-for pp in p.patterns_to_ignore:
-    print(pp)

@@ -80,7 +80,6 @@ def cp_codenation_projects_to_dropbox():
         end_index = len(str(parent_directory))
 
         for (root, dirs, files) in os.walk(parent_directory):
-            #if not is_directory_to_ignore(root):
             if not patterns_to_ignore.is_path_to_ignore(root):
                 print(root)
                 current_dir = root[end_index:]
@@ -119,21 +118,3 @@ def cp_codenation_projects_to_dropbox():
                 sys.exit('The origin and destin file must have the same size')
 
     print("The command 'cp-codenation-projects-to-dropbox' ended its execution")
-
-
-def is_directory_to_ignore(path_str):
-    # TODO: put this in a file, using patterns from gitignore
-    patterns_to_ignore = [
-        f'{os.sep}node_modules',
-        f'{os.sep}.git',
-        f'{os.sep}__pycache__',
-        f'{os.sep}.pytest_cache',
-        f'{os.sep}.idea',
-        f'{os.sep}__MACOSX',
-    ]
-
-    for pattern in patterns_to_ignore:
-        if path_str.find(pattern) != -1:
-            return True
-
-    return False
