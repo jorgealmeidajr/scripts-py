@@ -19,6 +19,9 @@ def main():
     elif args['command'] == 'cp-codenation-projects-to-dropbox':
         home_commands.cp_codenation_projects_to_dropbox()
 
+    elif args['command'] == 'git-status-workspace':
+        home_commands.git_status_workspace()
+
     else:
         print(f"Command: {args['command']} is not supported")
 
