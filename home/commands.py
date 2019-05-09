@@ -7,6 +7,8 @@ import home.constants as constants
 
 from home.cp_codenation_projects_to_dropbox import copy_codenation_projects_to_dropbox
 from home.git_status_workspace import print_git_status_workspace
+from home.git_push_workspace import execute_git_push_workspace
+
 
 def mv_tutorials_to_dropbox():
     tutorials_path = os.path.join(constants.DOWNLOADS_DIRECTORY, 'tutorials')
@@ -59,3 +61,7 @@ def cp_codenation_projects_to_dropbox():
 
 def git_status_workspace():
     print_git_status_workspace()
+
+
+def git_push_workspace():
+    execute_git_push_workspace()

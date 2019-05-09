@@ -22,6 +22,9 @@ def main():
     elif args['command'] == 'git-status-workspace':
         home_commands.git_status_workspace()
 
+    elif args['command'] == 'git-push-workspace':
+        home_commands.git_push_workspace()
+
     else:
         print(f"Command: {args['command']} is not supported")
 
