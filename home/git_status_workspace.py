@@ -4,7 +4,7 @@ from pathlib import Path
 
 
 def print_git_status_workspace():
-    print("The command 'git_status_workspace' started")
+    print("INFO: The command 'git_status_workspace' started\n")
     check_pre_conditions()
 
     workspace_dir = Path.home() / 'Workspace'
@@ -12,11 +12,13 @@ def print_git_status_workspace():
 
     for project_dir in dirs:
         cwd = str(project_dir)
-        print("\n => " + cwd)
+        print("#" * 60)
+        print("=> " + cwd)
         subprocess.call("git status", cwd=cwd, shell=True)
+        print("\n")
 
     check_post_conditions()
-    print("The command 'git_status_workspace' ended its execution")
+    print("INFO: The command 'git_status_workspace' ended its execution")
 
 
 def check_pre_conditions():
